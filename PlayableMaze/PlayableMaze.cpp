@@ -52,6 +52,7 @@ void removeWall(mazeNode& currentNode, mazeNode& neighborNode);
 void mazePrintOut(std::vector<std::vector<mazeNode>> mazeArray, coordinate playerPosition);
 coordinate findStartingPosition(std::vector<std::vector<mazeNode>> mazeArray);
 void movePlayer(coordinate* playerPosition, char userInput, std::vector<std::vector<mazeNode>> maze);
+bool playerHasWon(coordinate* playerPosition, char userInput);
 
 
 
@@ -86,6 +87,11 @@ int main(int argc, char* argv[]) {
 
     // Loop getting user input forever.
     while (std::cin.get(userInput)) {
+        if (playerHasWon(&playerPosition, userInput)) {
+            std::cout << "You have won!";
+            std::cin.get();
+            return 0;
+        }
         clearScreen();
         movePlayer(&playerPosition, userInput, mazeArray);
         mazePrintOut(mazeArray, playerPosition);
@@ -376,4 +382,8 @@ void movePlayer(coordinate* player, char userInput, std::vector<std::vector<maze
 
             break;
     }
+}
+
+bool playerHasWon(coordinate* player, char userInput) {
+    return (player->y == 0 && userInput == 'w');
 }
